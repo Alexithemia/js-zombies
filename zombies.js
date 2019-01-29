@@ -90,22 +90,23 @@ Food.prototype = Object.create(Item.prototype);
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
 function Player(name, health, strength, speed) {
-  this._pack = [];
-  this._maxHealth = 100;
+  const _pack = [];
+  const _maxHealth = 100;
   this.name = name;
   this.health = health;
   this.strength = strength
   this.speed = speed;
   this.isAlive = true;
   this.equipped = false;
+  Player.prototype.getPack = function () {
+    return _pack;
+  }
+  Player.prototype.getMaxHealth = function () {
+    return _maxHealth;
+  }
 }
 
-Player.prototype.getPack = function () {
-  return this._pack;
-}
-Player.prototype.getMaxHealth = function () {
-  return this._maxHealth;
-}
+
 
 /**
  * Player Class Method => checkPack()
@@ -147,7 +148,7 @@ Player.prototype.takeItem = function (item) {
     console.log('Pack is full');
     return false;
   } else {
-    this._pack.push(item);
+    pack.push(item);
     console.log(this.name + ' pickup ' + item.name);
     return true;
   }
@@ -249,7 +250,7 @@ Player.prototype.eat = function (itemToEat) {
   if (itemToEat instanceof Food) {
     if (pack.indexOf(itemToEat) >= 0) {
       if (this.health + itemToEat.energy > 100) {
-        this.health = this._maxHealth;
+        this.health = this.getMaxHealth();
       } else {
         this.health += itemToEat.energy;
       }
